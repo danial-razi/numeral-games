@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: aliceblue;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background-image: url('./images/bg2.jpg');
+    }
+
+    header {
+      text-align: center;
+      background-image: url(images/bg.jpg);
+      color: white;
+      padding: 10px 5px;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    #startBtn {
+      width: 95%;
+      height: 30px;
+      background-color: steelblue;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #startBtn:hover {
+      color: steelblue;
+      background-color: white;
+      transition: all 0.3s;
+    }
+
+    #game div:first-child {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    #guessField {
+      width: 100px;
+    }
+
+    .guessSubmit {
+      display: block;
+      margin: 10px auto;
+    }
+
+    #game {
+      display: none;
+    }
+
+    .btn {
+      color: white;
+      background-color: blue;
+      padding: 8px 4px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .resultParas p {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Guess The Number</h1>
+    <p>Gaming with numbers!</p>
+  </header>
+
+  <form action="#" id="form">
+    <div>
+      <label for="start">From: &nbsp;</label>
+      <input type="number" id="start" class="setting">
+    </div>
+    <div>
+      <label for="end">To: &nbsp; &nbsp; &nbsp</label>
+      <input type="number" id="end" class="setting">
+    </div>
+    <div>
+      <label for="count">Count: </label>
+      <input type="number" id="count" class="setting">
+    </div>
+    <button type="button" id="startBtn">START THE GAME</button>
+  </form>
+
+  <div id="game">
+    <div>
+      <label for="guessField">Enter a guess: </label>
+      <input type="number" id="guessField" class="guessField" />
+    </div>
+    <input type="submit" value="Submit guess" class="guessSubmit" />
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+    </div>
+  </div>
+  <script>
+
+    const guesses = document.querySelector(".guesses");
+    const lastResult = document.querySelector(".lastResult");
+
+    const guessSubmit = document.querySelector(".guessSubmit");
+    const guessField = document.querySelector(".guessField");
+
+    const startField = document.querySelector('#start');
+    const endField = document.querySelector("#end");
+    const countField = document.querySelector('#count');
+    const startBtn = document.querySelector('#startBtn');
+
+    let guessCount = 1;
+    let resetButton;
+    let closeButton;
+    let randomNumber;
+
+    startBtn.addEventListener('click', startGame);
+
+    function startGame() {
+      let start = Number(startField.value) || 1;
+      let end = Number(endField.value) || 100;
+      let count = Number(countField.value) || 10;
+      const range = end - start + 1;
+      randomNumber = Math.floor(Math.random() * range) + start;
+      document.querySelector('#game').style.display = 'block';
+      startField.disabled = true;
+      endField.disabled = true;
+      countField.disabled = true;
+      console.log(randomNumber); //for test 
+    }
+
+    function checkGuess() {
+      const userGuess = Number(guessField.value);
+      if (guessCount === 1) {
+        guesses.textContent = " guesses:";
+      }
+      guesses.textContent = `${guesses.textContent} ${userGuess}`;
+
+      if (userGuess === randomNumber) {
+        lastResult.textContent = "Congratulations! You got it right!";
+        lastResult.style.backgroundColor = "green";
+        lastResult.style.color = 'white';
+        setGameOver();
+      } else if (guessCount === (Number(countField.value) || 10)) {
+        lastResult.textContent = "!!!GAME OVER!!!";
+        setGameOver();
+      } else {
+        lastResult.textContent = "Wrong!";
+        lastResult.style.backgroundColor = "red";
+        lastResult.style.color = 'white';
+        if (userGuess < randomNumber) {
+          lastResult.textContent += " Go Up";
+        } else if (userGuess > randomNumber) {
+          lastResult.textContent += " Go Down";
+        }
+      }
+
+      guessCount++;
+      guessField.value = "";
+      guessField.focus();
+    }
+
+    guessSubmit.addEventListener("click", checkGuess);
+
+    function setGameOver() {
+      guessField.disabled = true;
+      guessSubmit.disabled = true;
+      resetButton = document.createElement("button");
+      resetButton.textContent = "Play Again";
+      document.body.append(resetButton);
+      resetButton.classList.add('btn');
+      resetButton.addEventListener("click", resetGame);
+    }
+
+    function resetGame() {
+      guessCount = 1;
+
+      const resetParas = document.querySelectorAll(".resultParas p");
+      for (const resetPara of resetParas) {
+        resetPara.textContent = "";
+      }
+
+      resetButton.parentNode.removeChild(resetButton);
+
+      guessField.disabled = false;
+      guessSubmit.disabled = false;
+      guessField.value = "";
+      guessField.focus();
+
+
+      startField.disabled = false;
+      endField.disabled = false;
+      countField.disabled = false;
+
+      lastResult.style.backgroundColor = "white";
+
+      document.querySelector('#game').style.display = 'none';
+
+      // randomNumber = Math.floor(Math.random() * 100) + 1;
+    }
+  </script>
+</body>
+
+</html>
