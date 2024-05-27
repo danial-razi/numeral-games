@@ -5,85 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    nav {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-    }
-    .btn {
-      flex: 1 1 auto;
-      background-color: crimson;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
+    @font-face {
+      font-family: vazir;
+      src: url('./Vazir.woff2');
     }
 
-    .active {
-      color: crimson;
+    .navigation {
+      background-color: rgb(241, 31, 133);
+    }
+
+    .navigation ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content:space-around;
+      padding: 15px;
+    }
+
+    .navigation ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+    }
+
+    .navigation ul li a:hover {
+      opacity: 0.7;
+    }
+
+    #active {
+      color: rgb(245, 36, 133);
       background-color: white;
     }
     
-    .container img {
-      width: 100%;
-      height: 800px;
+    .para {
+      direction: rtl;
+      border: 5px dotted rgb(167, 79, 120);
+      padding: 5px;
+      border-radius: 15px;
+      font-family: vazir;
+      margin: 5px;
+      text-align: justify;
+    }
+    
+    .container {
+      height: 90vh;
+      background-image: url('./images/gameback.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 100% 90vh;
+    }    
+
+    @media all and (min-width: 700px) {
+      .container {
+        background-image: url('images/gameback2.jpg');
+      }
+
+      .para {
+        width: 50%;
+        position: absolute;
+        right: 10px;
+      }
     }
 
-    iframe {
-      width: 100%;
-      height: 200vh;
-      display: none;
-    }
-
-    iframe#two-frame {
-      height: 100vh;
+    @media all and (min-width: 1000px) {
+      .para {
+        width: 40%;;
+      }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <button class="btn btn-one active">Home</button>
-    <button class="btn btn-two">Guess The Number</button>
-    <button class="btn btn-three">2048</button>
+  <nav class="navigation">
+    <ul>
+      <li><a href="#" id="active">Home</a></li>
+      <li><a href="guess-the-number.html">Guess Number</a></li>
+      <li><a href="2048.html">2048 Game</a></li>
+      <li><a href="type-speed.html">Type speed</a></li>
+    </ul>
   </nav>
   <div class="container">
-    <img src="./images/gameback.jpg" alt="" id="back">
-    <iframe id="one-frame" src="guess-the-number.html" frameborder="0"></iframe>
-    <iframe id="two-frame" src="2048.html" frameborder="0"></iframe>
+    <p class="para">
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+      توضیح در مورد بازی‌ها
+    </p>
   </div>
-  <script>
-    const btn1 = document.querySelector('.btn-one');
-    const btn2 = document.querySelector('.btn-two');
-    const btn3 = document.querySelector('.btn-three');
-    const iframe1 = document.querySelector('#one-frame');
-    const iframe2 = document.querySelector('#two-frame');
-    const image = document.querySelector('#back');
-
-    btn1.addEventListener('click', () => {
-      btn1.classList.add('active');
-      btn2.classList.remove('active');
-      btn3.classList.remove('active');
-      image.style.display = 'block';
-      iframe1.style.display = 'none';
-      iframe2.style.display = 'none';
-    });
-
-    btn2.addEventListener('click', () => {
-      btn1.classList.remove('active');
-      btn2.classList.add('active');
-      btn3.classList.remove('active');
-      image.style.display = 'none';
-      iframe1.style.display = 'block';
-      iframe2.style.display = 'none';
-    });
-
-    btn3.addEventListener('click', () => {
-      btn1.classList.remove('active');
-      btn2.classList.remove('active');
-      btn3.classList.add('active');
-      image.style.display = 'none';
-      iframe1.style.display = 'none';
-      iframe2.style.display = 'block';
-    });
-  </script>
 </body>
 </html>
